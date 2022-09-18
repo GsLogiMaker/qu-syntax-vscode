@@ -1,0 +1,25 @@
+{
+  "name": "qu-syntax",
+  "displayName": "Qu Syntax",
+  "description": "Syntax highlighting for the Qu programming language.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.71.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "qu",
+      "aliases": ["Qu", "qu"],
+      "extensions": [".qu"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "qu",
+      "scopeName": "source.qu",
+      "path": "./syntaxes/qu.tmLanguage.json"
+    }]
+  }
+}

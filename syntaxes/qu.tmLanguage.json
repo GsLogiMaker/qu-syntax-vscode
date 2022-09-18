@@ -1,0 +1,311 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Qu",
+	"patterns": [
+		{
+			"include": "#comments"
+		
+		}, {
+			"include": "#fn_declaration"
+		}, {
+			"include": "#implement_trait"
+		}, {
+			"include": "#var_declaration"
+		}, {
+			"include": "#classlike_declaration"
+		}, {
+			"include": "#keywords"
+		}, {
+			"include": "#numbers"
+		}, {
+			"include": "#strings"
+		}, {
+			"include": "#self"
+		}, {
+			"include": "#any_method"
+		}, {
+			"include": "#any_property"
+		}, {
+			"include": "#any_variable"
+		}
+	],
+	"repository": {
+		"annotated_parameter": {
+			"patterns":[
+				{
+					"match": "\\b([a-zA-Z_]\\w+)\\s*(\\w*)?",
+					"captures": {
+						"1": {
+							"name": "entity.name.variable.qu"
+						},
+						"2": {
+							"name": "entity.name.type.qu"
+						}
+					}
+				}
+			]
+
+		}, "any_method": {
+			"match": "\\b([A-Za-z_]\\w*)\\b(?=\\s*(?:[(]))",
+			"name": "support.function.any-method.qu"
+
+		}, "any_property": {
+			"match": "(?<=[^.]\\.)\\b([A-Za-z_]\\w*)\\b(?![(])",
+			"name": "variable.other.property.qu"
+		
+		}, "any_variable": {
+			"match": "(?<=[^.])\\b([A-Za-z_]\\w*)\\b(?![(])",
+			"name": "variable.other.variable.qu"
+
+		}, "arithmetic_op": {
+			"match": "\\+=|-=|\\*=|/=|%=|&=|\\|=|\\*|/|%|\\+|-|<<|>>|&|\\||\\^|~",
+			"name": "keyword.operator.arithmetic.qu"
+
+		}, "assignment_op": {
+			"match": "=",
+			"name": "keyword.operator.assignment.qu"
+
+		}, "base_expression": {
+			"patterns":[
+				{
+					"include":"#strings"
+				}, {
+					"include":"#numbers"
+				}
+			]
+
+		}, "comments": {
+			"patterns": [
+				{
+					"include":"#comment_block"
+				}, {
+					"include":"#comment_line"
+				}
+			]
+
+		}, "comment_block": {
+			"name": "comment.block.qu",
+			"begin": "#/",
+			"end": "/#"
+
+		}, "comment_line": {
+			"name": "comment.line.qu",
+			"begin": "#",
+			"end": "$"
+		
+		}, "const_vars": {
+			"match": "\\b([A-Z_][A-Z_0-9]*)\\b",
+			"name": "constant.language.qu"
+		
+		}, "compare_op": {
+			"match": "<=|>=|==|<|>|!=",
+			"name": "keyword.operator.comparison.qu"
+
+		}, "control_flow": {
+			"match": "\\b(?i:if|elif|else|for|while|break|continue|pass|return|match|yield|await)\\b",
+			"name": "keyword.control.qu"
+		
+		}, "keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.qu",
+					"match": "\\b(if|while|for|return)\\b"
+				}, {
+					"name": "keyword.language.qu",
+					"match": "\\b(static|impl)\\b"
+				}
+			]
+		
+		}, "numbers": {
+			"patterns": [
+				{
+					"name": "constant.numeric",
+					"match": "[^a-z ]*([.0-9])*\\d"
+				}
+			]
+
+		}, "self": {
+			"patterns": [
+				{
+					"match": "\\bself\\b",
+					"name": "variable.language.self.qu"
+				}, {
+					"match": "\\glob\\b",
+					"name": "variable.language.glob.qu"
+				}
+			]
+		
+		}, "strings": {
+			"name": "string.quoted.double.qu",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.qu",
+					"match": "\\\\."
+				}
+			]
+		
+		}, "classlike_declaration": {
+			"begin": "\\b(?:(class)|(trait))",
+			"end": "$",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.class.qu"
+				},
+				"2": {
+					"name": "storage.type.trait.qu"
+				}
+			},
+			"patterns": [
+				{
+					"match": "(?<=^(?:(class)|(trait)))\\s+([a-zA-Z_]\\w*)\\s*(?=:)",
+					"captures": {
+						"1": {
+							"name": "entity.name.type.class.qu"
+						},
+						"2": {
+							"name": "entity.name.type.trait.qu"
+						},
+						"3": {
+							"name": "entity.name.type.qu"
+						}
+					}
+				}, {
+					"name": "keyword.operator.assignment.qu",
+					"match": ":"
+				}, {
+					"include": "#base_expression"
+				}
+			]
+
+		}, "fn_declaration": {
+			"begin": "(fn)\\s+\n*(([a-zA-Z_][\\w]*)(\\.))?([a-zA-Z_][\\w]*)\\s*\n*(?=\\()",
+			"end": "(:)|(?=[#'\"\\n])",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.function.qu"
+				},
+				"3": {
+					"name": "entity.name.type.qu"
+				},
+				"5": {
+					"name": "entity.name.function.qu"
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.section.function.begin.qu"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#parameters"
+				}, {
+					"match": "\\b([a-zA-Z_][\\w]*)\\s*\\:",
+					"captures": {
+						"1": {
+							"name": "entity.name.type.class.qu"
+						}
+					}
+				}
+			]
+
+		}, "implement_trait":{
+			"begin":"\\b(impl)",
+			"end":"\n",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.language.impl.qu"
+				}
+			},
+			"patterns":[
+				{
+					"name":"entity.name.type.qu",
+					"match":"\\b([a-zA-Z_]\\w+)"
+				}
+			]
+
+		}, "loose_default": {
+			"begin": "(=)",
+			"end": "(,)|(?=\\))",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.operator.qu"
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.separator.parameters.qu"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#base_expression"
+				}
+			]
+
+		}, "parameters": {
+			"name": "meta.function.parameters.qu",
+			"begin": "(\\()",
+			"end": "(\\))",
+			"beginCaptures": {
+				"1": {
+					"name": "punctuation.definition.parameters.begin.qu"
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.definition.parameters.end.qu"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#annotated_parameter"
+				},
+				{
+					"match": "(?x)\n  ([[:alpha:]_]\\w*)\n    \\s* (?: (,) | (?=[)#\\n=]))\n",
+					"captures": {
+						"1": {
+							"name": "variable.parameter.function.language.qu"
+						},
+						"2": {
+							"name": "punctuation.separator.parameters.qu"
+						}
+					}
+				},
+				{
+					"include": "#comments"
+				},
+				{
+					"include": "#loose_default"
+				}
+			]
+
+		}, "var_declaration": {
+			"begin": "\\b(?:(var)|(const))",
+			"end": "$",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.var.qu"
+				},
+				"2": {
+					"name": "storage.type.const.qu"
+				}
+			},
+			"patterns": [
+				{
+					"include":"#annotated_parameter"
+				}, {
+					"name": "keyword.operator.assignment.qu",
+					"match": "=(?!=)"
+				}, {
+					"include": "#base_expression"
+				}
+			]
+
+		}
+
+	},
+	"scopeName": "source.qu"
+}
